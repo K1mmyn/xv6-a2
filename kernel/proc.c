@@ -570,9 +570,7 @@ default_scheduler(void)
 void
 scheduler(void)
 {
-  //default_scheduler();
-  //priority_scheduler();
-  priority_scheduler2();
+  default_scheduler();
 }
 
 // Switch to scheduler.  Must hold only p->lock
