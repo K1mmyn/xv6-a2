@@ -46,3 +46,4 @@ entry("uptime");
 entry("getwaittime");
 entry("waitx");
 entry("execp");
+entry("getusedmem");
