@@ -147,7 +147,7 @@ sys_waitx(void)
   return kwaitx(addr, rtime_addr, stime_addr);
 }
 
-utin64
+uint64
 sys_getusedmem(void)
 {
   return getusedmem();
