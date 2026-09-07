@@ -257,6 +257,38 @@ uvmdealloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz)
   return newsz;
 }
 
+uint64
+walk_used(pagetable_t pagetable)
+{
+
+  uint64 mapped_bytes = PGSIZE;
+
+  for (int i = 0; i < 512; i++) {
+      pte_t pte = pagetable[i];
+
+      if ((pte & PTE_V) == 0) {
+        continue;
+      }
+       
+      if((pte & PTE_V) && (pte & (PTE_R|PTE_W|PTE_X)) == 0){
+        // this PTE points to a lower-level page table.
+        uint64 child = PTE2PA(pte);
+        mapped_bytes += walk_used((pagetable_t)child);
+      } else if ((pte & PTE_V) && (pte & (PTE_R|PTE_W|PTE_X))) {
+        mapped_bytes += PGSIZE;
+      }
+  }
+
+  return mapped_bytes;
+
+}
+
+uint64
+getusedmem(void)
+{
+  return walk_used(kernel_pagetable);
+}
+
 // Recursively free page-table pages.
 // All leaf mappings must already have been removed.
 void
