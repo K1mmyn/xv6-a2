@@ -152,3 +152,24 @@ sys_getusedmem(void)
 {
   return getusedmem();
 }
+
+uint64
+sys_mprotect(void)
+{
+    uint64 va;
+
+    argaddr(0, &va);
+
+    return mprotect(va);
+}
+
+uint64
+sys_munprotect(void)
+{
+    uint64 va;
+
+    argaddr(0, &va);
+
+    return munprotect(va);
+}
+
