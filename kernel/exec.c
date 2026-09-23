@@ -93,6 +93,10 @@ kexec(char *path, char **argv)
   sp = sz;
   stackbase = sp - USERSTACK*PGSIZE;
 
+  // Make address 0 unaccessable
+  
+  uvmclear(pagetable, 0);
+
   // Copy argument strings into new stack, remember their
   // addresses in ustack[].
   for(argc = 0; argv[argc]; argc++) {
