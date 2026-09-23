@@ -151,6 +151,7 @@ UPROGS=\
 	$U/_uoa_testschd\
 	$U/_used\
 	$U/_usedtest\
+	$U/_mprotect_test\
 
 
 fs.img: mkfs/mkfs README.xv6 $(UPROGS)

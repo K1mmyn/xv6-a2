@@ -256,6 +256,58 @@ uvmdealloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz)
 
   return newsz;
 }
+#define PTE_V (1L << 0) // valid
+#define PTE_R (1L << 1)
+#define PTE_W (1L << 2)
+#define PTE_X (1L << 3)
+#define PTE_U (1L << 4) // user can access
+
+
+uint64
+mprotect_walk(pagetable_t pagetable, uint64 va)
+{
+  pte_t *pte;
+
+  if(va >= MAXVA)
+    return -1;
+
+  pte = walk(pagetable, va, 0);
+  if (pte == 0 || (*pte & PTE_V) == 0 || (*pte & PTE_U) == 0) {
+    return -1;
+  }
+  *pte &= ~PTE_W;
+  sfence_vma();
+  return 0;
+}
+
+uint64
+munprotect_walk(pagetable_t pagetable, uint64 va)
+{
+  pte_t *pte;
+
+  if(va >= MAXVA)
+    return -1;
+
+  pte = walk(pagetable, va, 0);
+  if (pte == 0 || (*pte & PTE_V) == 0 || (*pte & PTE_U) == 0) {
+    return -1;
+  }
+  *pte |= PTE_W;
+  sfence_vma();
+  return 0;
+}
+
+uint64
+munprotect(uint64 va)
+{
+  return munprotect_walk(myproc()->pagetable, va);  
+}
+
+uint64
+mprotect(uint64 va)
+{
+  return mprotect_walk(myproc()->pagetable, va);
+}
 
 uint64
 walk_used(pagetable_t pagetable)

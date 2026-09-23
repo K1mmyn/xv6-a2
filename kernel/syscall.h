@@ -22,6 +22,8 @@
 #define SYS_close  21
 /* uoa */
 #define SYS_getwaittime 22
-#define SYS_waitx 23
-#define SYS_execp 24
-#define SYS_getusedmem 25
+#define SYS_waitx       23
+#define SYS_execp       24
+#define SYS_getusedmem  25
+#define SYS_mprotect    26 
+#define SYS_munprotect  27
