@@ -272,7 +272,7 @@ mprotect_walk(pagetable_t pagetable, uint64 va)
     return -1;
 
   pte = walk(pagetable, va, 0);
-  if (pte == 0 || (*pte & PTE_V) == 0) {
+  if (pte == 0 || (*pte & PTE_V) == 0 || (*pte & PTE_U) == 0) {
     return -1;
   }
   *pte &= ~PTE_W;
@@ -289,7 +289,7 @@ munprotect_walk(pagetable_t pagetable, uint64 va)
     return -1;
 
   pte = walk(pagetable, va, 0);
-  if (pte == 0 || (*pte & PTE_V) == 0) {
+  if (pte == 0 || (*pte & PTE_V) == 0 || (*pte & PTE_U) == 0) {
     return -1;
   }
   *pte |= PTE_W;
