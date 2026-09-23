@@ -154,6 +154,9 @@ UPROGS=\
 	$U/_mprotect_test\
 	$U/_nullptrtest\
 	$U/_nullwritetest\
+	$U/_test_used\
+	$U/_test_syscall\
+	$U/_test_nullptr\
 
 
 fs.img: mkfs/mkfs README.xv6 $(UPROGS)

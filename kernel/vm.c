@@ -313,7 +313,7 @@ uint64
 walk_used(pagetable_t pagetable)
 {
 
-  uint64 mapped_bytes = PGSIZE;
+  uint64 mapped_bytes = 0;
 
   for (int i = 0; i < 512; i++) {
       pte_t pte = pagetable[i];
@@ -338,7 +338,7 @@ walk_used(pagetable_t pagetable)
 uint64
 getusedmem(void)
 {
-  return walk_used(kernel_pagetable);
+  return walk_used(myproc()->pagetable);
 }
 
 // Recursively free page-table pages.
